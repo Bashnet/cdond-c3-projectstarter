@@ -141,6 +141,6 @@ workflows:
       - scan-frontend:
           requires: 
             - build-frontend
-      - scangit -backend:
+      - scan-backend:
           requires:
             - build-backend
