@@ -178,7 +178,7 @@ jobs:
           fingerprints: ["cc:d1:14:69:30:99:ec:51:bf:5b:53:b0:47:47:56:d2"]
       - attach_workspace:
           at: ~/
-      - run: yum install -y tar gzip
+      - run: apk add --update tar gzip
       - run:
           name: install Ansible
           command: |
