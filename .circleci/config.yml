@@ -162,20 +162,40 @@ jobs:
           command: |
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> .circleci\ansible\inventory.txt
+              --output text >> ansible\inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment
 
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.16
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["cc:d1:14:69:30:99:ec:51:bf:5b:53:b0:47:47:56:d2"]
+      - attach_workspace:
+          at: ~/
+      - run: yum install -y tar gzip
+      - run:
+          name: install Ansible
+          command: |
+            apk add --update ansible
+      - run:
+          name: run playbook and configure server
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml
 
 workflows:
   default:
     jobs:
       - build-frontend
       - build-backend
-      - deploy-infrastructure
+      - configure-infrastructure
+      #- deploy-infrastructure
       - test-frontend:
           requires: 
             - build-frontend
