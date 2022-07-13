@@ -222,7 +222,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip npm
+            yum install -y tar gzip nodejs
       - run:
           name: Get backend url
           command: |
