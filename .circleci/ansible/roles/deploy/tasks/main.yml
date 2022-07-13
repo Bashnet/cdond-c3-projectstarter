@@ -1,9 +1,6 @@
 ---
-- name: list files
-  command: ls 
-
 - name: extract artifact
-  command: tar xzf ./backend/artifact.tar.gz
+  command: tar xzf ../../artifact.tar.gz
 
 - name: "install npm"
   become: yes
