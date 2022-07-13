@@ -256,10 +256,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update tar gzip
             apk add --update ansible
             apk add --update nodejs
-            apk add --update npm
       - run:
           name: Deploy backend
           command: |
@@ -279,22 +277,33 @@ jobs:
 workflows:
   default:
     jobs:
-      #- build-frontend
-      #- build-backend
-      #- configure-infrastructure
-      #- deploy-infrastructure
-      #- test-frontend:
-      #- run-migrations
-      - deploy-frontend
+      - build-frontend
+      - build-backend
+      - run-migrations:
+          requires:
+            - configure-infrastructure
+      - deploy-frontend:
+          requires:
+            - configure-infrastructure
       #- deploy-backend
-      #    requires: 
-      #      - build-frontend
-      #- test-backend:
-      #    requires:
-      #      - build-backend
-      #- scan-frontend:
-      #    requires: 
-      #      - build-frontend
-      #- scan-backend:
-      #    requires:
-      #      - build-backend
+      - configure-infrastructure:
+          requires: 
+            - deploy-infrastructure
+      - deploy-infrastructure:
+          requires: 
+            - test-frontend
+            - test-backend
+            - scan-frontend
+            - scan-backend
+      - test-frontend:
+          requires: 
+            - build-frontend
+      - test-backend:
+          requires:
+            - build-backend
+      - scan-frontend:
+          requires: 
+            - build-frontend
+      - scan-backend:
+          requires:
+            - build-backend
