@@ -163,7 +163,7 @@ jobs:
           command: |
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> ansible\inventory.txt
+              --output text >> .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -284,7 +284,7 @@ workflows:
             - configure-infrastructure
       - deploy-frontend:
           requires:
-            - configure-infrastructure
+            - run-migrations
       #- deploy-backend
       - configure-infrastructure:
           requires: 
