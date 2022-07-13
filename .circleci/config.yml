@@ -216,12 +216,13 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run: yum install -y tar gzip
       - attach_workspace:
           at: ~/
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible
+            yum install -y tar gzip
       - run:
           name: Get backend url
           command: |
@@ -246,6 +247,7 @@ jobs:
       - image: python:3.7-alpine3.16
     steps:
       - checkout
+      - run: apk add --update tar gzip
       - add_ssh_keys:
           fingerprints: ["cc:d1:14:69:30:99:ec:51:bf:5b:53:b0:47:47:56:d2"]
       - attach_workspace:
