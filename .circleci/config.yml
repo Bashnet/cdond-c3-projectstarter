@@ -23,22 +23,22 @@ commands:
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
-      kvdb:
-        default: "https://kvdb.io/L6Mw5ntsPbqTU8orTjbAJn/migration_${CIRCLE_WORKFLOW_ID:0:7}"
-        type: string
+      workflow_id:
+        type: string     
     steps:
       - run:
           name: Revert migrations
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            $SUCCESS = curl --insecure <<parameters.kvdb>>
-            if(( $SUCCESS==1 )); 
+            SUCCESS=$(curl --insecure  https://kvdb.io/L6Mw5ntsPbqTU8orTjbAJn/migration_<< parameters.workflow_id >>)
+            # Logic for reverting the database state
+            if (( $SUCCESS == 1 ));
             then
-              cd ~/project/backend
-              npm install
-              npm run migrations:revert
-            fi
+                cd ~/project/backend
+                npm install
+                npm run migration:revert
+            fi  
 
 
 jobs:
@@ -211,10 +211,6 @@ jobs:
             then
               curl --insecure https://kvdb.io/L6Mw5ntsPbqTU8orTjbAJn/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt   
       - revert-migrations      
 
   deploy-frontend:
