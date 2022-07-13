@@ -24,6 +24,7 @@ commands:
     parameters:
       kvdb:
         default: "https://kvdb.io/L6Mw5ntsPbqTU8orTjbAJn/migration_${CIRCLE_WORKFLOW_ID:0:7}"
+        type: string
     steps:
       - run:
           name: Revert migrations
