@@ -1,6 +1,6 @@
 ---
 - name: extract artifact
-  command: tar -xzf artifact.tar.gz
+  command: tar xzf backend/artifact.tar.gz
 
 - name: "install npm"
   become: yes
