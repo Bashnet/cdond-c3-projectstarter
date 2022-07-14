@@ -1,10 +1,9 @@
 ---
 - name: extract artifact
   ansible.builtin.unarchive:
-    src: ~/project/.circleci/ansible/roles/deploy/files/artifact.tar.gz
+    src: files/artifact.tar.gz
     dest: ~/
-    remote_src: yes
-
+    
 - name: "install npm"
   become: yes
   apt:
