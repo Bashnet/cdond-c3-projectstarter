@@ -276,8 +276,7 @@ jobs:
             cd ..
             # Zip the directory
             mkdir -p ~/project/.circleci/ansible/roles/deploy/files/
-            tar -czf artifact.tar.gz dist/* package*
-            echo ls
+            tar -C backend -czvf artifact.tar.gz .
             mv artifact.tar.gz .circleci/ansible/roles/deploy/files/artifact.tar.gz
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
