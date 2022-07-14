@@ -2,7 +2,7 @@
 - name: extract artifact
   ansible.builtin.unarchive:
     src: files/artifact.tar.gz
-    dest: ./
+    dest: ~/
     remote_src: yes
 
 - name: "install npm"

@@ -280,9 +280,9 @@ jobs:
             pwd 
             ls 
             mv artifact.tar.gz ~/project/.circleci/ansible/roles/deploy/files/artifact.tar.gz
-            cd .circleci/ansible
-            pwd
+            cd .circleci/ansible/roles/deploy/files/
             ls
+            cd ../../..
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
