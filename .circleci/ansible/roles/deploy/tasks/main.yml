@@ -1,7 +1,7 @@
 ---
 - name: extract artifact
   ansible.builtin.unarchive:
-    src: files/artifact.tar.gz
+    src: ~/project/.circleci/ansible/roles/deploy/files/artifact.tar.gz
     dest: ~/
     remote_src: yes
 
