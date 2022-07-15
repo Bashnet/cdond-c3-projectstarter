@@ -19,4 +19,4 @@
 
 - name: "start the app"
   become: yes
-  command: pm2 start npm -- start
+  command: pm2 start ./main.js
