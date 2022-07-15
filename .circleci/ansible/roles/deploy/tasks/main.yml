@@ -21,4 +21,4 @@
   become: yes
   command: pm2 start ./main.js
   args:
-    chdir: /home/ubutu/app/dist
+    chdir: ./dist
