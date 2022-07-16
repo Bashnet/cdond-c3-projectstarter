@@ -349,7 +349,7 @@ jobs:
             # Change the initial stack name, as applicable to you
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
-              --stack-name "InitialStack-01" \
+              --stack-name "InitialStack" \
               --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
       - destroy-environment
@@ -388,17 +388,26 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
+      - deploy-infrastructure
+      - configure-infrastructure:
           requires: 
-            - build-frontend
-      - test-backend:
+            - deploy-infrastructure
+      - run-migrations:
           requires:
-            - build-backend
-      - scan-frontend:
-          requires: 
-            - build-frontend
-      - scan-backend:
+            - configure-infrastructure
+      - deploy-frontend:
           requires:
-            - build-backend
+            - run-migrations
+      - deploy-backend:
+          requires:
+            - run-migrations
+      - smoke-test:
+          requires:
+            - deploy-frontend
+            - deploy-backend
+      - cloudfront-update:
+          requires:
+            - smoke-test
+      - cleanup:
+          requires:
+            - cloudfront-update
